@@ -8,19 +8,28 @@ using UnityEditor;
 
 
 public class AudioTinker : MonoBehaviour {
+
+    //Bass frequency = 30 -> 100Hz
+    
+    [SerializeField][Range(0,20000)]
+    private int frequency = 1500;
+
+    [SerializeField]
+    private int sampleDuration = 5;
+
+    [SerializeField][Range(1000,44100)]
+    private int sampleRate = 44100;
+
     private AudioSource audioSource;
     private AudioClip outAudioClip;
     
     
-    // Start is called before the first frame update
-    void Start() {
+    private void Start() {
         audioSource = GetComponent<AudioSource>();
-        outAudioClip = CreateToneAudioClip(1500);
+        outAudioClip = CreateToneAudioClip();
         PlayOutAudio();
     }
-    
 
-    // Public APIs
     public void PlayOutAudio() {
         audioSource.PlayOneShot(outAudioClip);    
     }
@@ -36,13 +45,9 @@ public class AudioTinker : MonoBehaviour {
     public void StopAudio() {
         audioSource.Stop();
     }
-    
-    
-    // Private 
-    private AudioClip CreateToneAudioClip(int frequency) {
-        int sampleDurationSecs = 5;
-        int sampleRate = 44100;
-        int sampleLength = sampleRate * sampleDurationSecs;
+        
+    private AudioClip CreateToneAudioClip() {
+        int sampleLength = sampleRate * sampleDuration;
         float maxValue = 1f / 4f;
         
         var audioClip = AudioClip.Create("tone", sampleLength, 1, sampleRate, false);
@@ -63,7 +68,7 @@ public class AudioTinker : MonoBehaviour {
     //[Button("Save Wav file")]
     private void SaveWavFile() {
         string path = EditorUtility.SaveFilePanel("Where do you want the wav file to go?", "", "", "wav");
-        var audioClip = CreateToneAudioClip(1500);
+        var audioClip = CreateToneAudioClip();
         SaveWavUtil.Save(path, audioClip);
     }
 #endif

@@ -275,7 +275,7 @@ GameObject:
   - component: {fileID: 574116939}
   - component: {fileID: 574116938}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Audio Source (GameObject)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -293,6 +293,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 909240c0b398278439f11d035e93d07e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  frequency: 50
+  sampleDuration: 10
+  sampleRate: 1000
 --- !u!82 &574116939
 AudioSource:
   m_ObjectHideFlags: 0
