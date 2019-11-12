@@ -13,11 +13,12 @@ public class ToneGenerator : MonoBehaviour
         for (int i = 0; i < data.Length; i += channels)
         {
             //data[i] = CreateSine(amplitude1, timeIndex, frequency1, offset1);
-            data[i] = AddSine(timeIndex, tones[0].amplitude, tones[1].amplitude, tones[0].frequency, tones[1].frequency, tones[0].offset, tones[1].offset);
+            //data[i] = AddSine(timeIndex, tones[0].amplitude, tones[1].amplitude, tones[0].frequency, tones[1].frequency, tones[0].offset, tones[1].offset);
+            data[i] = tones[0].AddSine(timeIndex, tones[1]);
             timeIndex++;
         }
     }
-
+    /*
     private float CreateSine(float amplitude, int timeIndex, float frequency, float offset)
     {
         return amplitude * Mathf.Sin((frequency * timeIndex) - offset);
@@ -28,7 +29,7 @@ public class ToneGenerator : MonoBehaviour
         float sin1 = a1 * Mathf.Sin((f1 * x) + o1);
         float sin2 = a2 * Mathf.Sin((f2 * x) + o2);
         return sin1 + sin2;
-    }
+    }*/
 
     // FORMULA FOR ADDING SINE WAVES: f(x) = a1*sin(f1*x + o1) + a2*sin(f2*x + o2)
 }
@@ -50,5 +51,15 @@ public class Tone
         frequency = freq;
         amplitude = amp;
         offset = off;
+    }
+
+    public float CreateSine(int time)
+    {
+        return amplitude * Mathf.Sin((frequency * time) - offset);
+    }
+
+    public float AddSine(int time, Tone otherSine)
+    {
+        return this.CreateSine(time) + otherSine.CreateSine(time);
     }
 }
