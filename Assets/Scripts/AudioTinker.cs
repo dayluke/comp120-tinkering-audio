@@ -11,28 +11,17 @@ public class AudioTinker : MonoBehaviour {
 
     //Bass frequency = 30 -> 100Hz
     
-    [SerializeField][Range(0,5)]
-    private float frequency1, frequency2;
+    public float frequency;
 
-    [SerializeField]
-    [Range(0, 2)]
-    private float amplitude1, amplitude2;
+    public float amplitude;
 
-    [SerializeField]
-    [Range(-180, 180)]
-    private int offset1, offset2;
+    public int sampleDuration = 5;
 
-    [SerializeField]
-    private int sampleDuration = 5;
-
-    [SerializeField][Range(1000,44100)]
-    private int sampleRate = 44100;
+    public int sampleRate = 44100;
 
     private AudioSource audioSource;
     private AudioClip outAudioClip;
-
-    private int timeIndex = 0;
-    /*
+    
     private void Start() {
         audioSource = GetComponent<AudioSource>();
         outAudioClip = CreateToneAudioClip();
@@ -70,24 +59,9 @@ public class AudioTinker : MonoBehaviour {
 
         audioClip.SetData(samples, 0);
         return audioClip;
-    }*/
-
-    private void OnAudioFilterRead(float[] data, int channels)
-    {
-        for (int i = 0; i < data.Length; i += channels)
-        {
-            data[i] = CreateSine(amplitude1, timeIndex, frequency1, offset1);
-
-            timeIndex++;
-        }
     }
 
-    private float CreateSine(float amplitude, int timeIndex, float frequency, float offset)
-    {
-        return amplitude * Mathf.Sin((frequency * timeIndex) - offset);
-    }
-
-/*
+    
 #if UNITY_EDITOR
     //[Button("Save Wav file")]
     private void SaveWavFile() {
@@ -95,5 +69,5 @@ public class AudioTinker : MonoBehaviour {
         var audioClip = CreateToneAudioClip();
         SaveWavUtil.Save(path, audioClip);
     }
-#endif*/
+#endif
 }
