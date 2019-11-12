@@ -274,6 +274,7 @@ GameObject:
   - component: {fileID: 574116940}
   - component: {fileID: 574116939}
   - component: {fileID: 574116938}
+  - component: {fileID: 574116941}
   m_Layer: 0
   m_Name: Audio Source (GameObject)
   m_TagString: Untagged
@@ -288,17 +289,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 574116937}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 909240c0b398278439f11d035e93d07e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frequency1: 0.03
-  frequency2: 0
-  amplitude1: 0.5
-  amplitude2: 0
-  offset1: 0
-  offset2: 0
+  frequency: 0
+  amplitude: 0
   sampleDuration: 10
   sampleRate: 1000
 --- !u!82 &574116939
@@ -411,3 +408,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &574116941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 574116937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30e2561ef613b8e47b6488723618ae6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tones:
+  - frequency: 0.01
+    amplitude: 0.2
+    offset: 0
+  - frequency: 0.015
+    amplitude: 0.2
+    offset: 0
+  - frequency: 0.02
+    amplitude: 0.2
+    offset: 0

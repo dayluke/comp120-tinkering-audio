@@ -14,7 +14,7 @@ public class ToneGenerator : MonoBehaviour
         {
             //data[i] = CreateSine(amplitude1, timeIndex, frequency1, offset1);
             //data[i] = AddSine(timeIndex, tones[0].amplitude, tones[1].amplitude, tones[0].frequency, tones[1].frequency, tones[0].offset, tones[1].offset);
-            data[i] = tones[0].AddSine(timeIndex, tones[1]);
+            data[i] = tones[0].AddSine(timeIndex, tones);
             timeIndex++;
         }
     }
@@ -46,8 +46,18 @@ public class Tone
         return amplitude * Mathf.Sin((frequency * time) - offset);
     }
 
-    public float AddSine(int time, Tone otherSine)
+    public float AddSine(int time, Tone[] tones)
     {
-        return this.CreateSine(time) + otherSine.CreateSine(time);
+        float totalSine = this.CreateSine(time);
+
+        foreach (Tone sineWave in tones)
+        {
+            if (sineWave != this)
+            { 
+                totalSine += sineWave.CreateSine(time);
+            }
+        }
+
+        return totalSine;
     }
 }
