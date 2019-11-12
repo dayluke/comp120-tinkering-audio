@@ -18,18 +18,6 @@ public class ToneGenerator : MonoBehaviour
             timeIndex++;
         }
     }
-    /*
-    private float CreateSine(float amplitude, int timeIndex, float frequency, float offset)
-    {
-        return amplitude * Mathf.Sin((frequency * timeIndex) - offset);
-    }
-
-    private float AddSine(int x, float a1, float a2, float f1, float f2, int o1, int o2)
-    {
-        float sin1 = a1 * Mathf.Sin((f1 * x) + o1);
-        float sin2 = a2 * Mathf.Sin((f2 * x) + o2);
-        return sin1 + sin2;
-    }*/
 
     // FORMULA FOR ADDING SINE WAVES: f(x) = a1*sin(f1*x + o1) + a2*sin(f2*x + o2)
 }
