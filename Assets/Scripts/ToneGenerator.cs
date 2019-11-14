@@ -14,9 +14,6 @@ public class ToneGenerator : MonoBehaviour
     {
         for (int i = 0; i < data.Length; i += channels)
         {
-            //data[i] = CreateSine(amplitude1, timeIndex, frequency1, offset1);
-            //data[i] = AddSine(timeIndex, tones[0].amplitude, tones[1].amplitude, tones[0].frequency, tones[1].frequency, tones[0].offset, tones[1].offset);
-
             if (AddWhiteNoise)
             {
                 tones[0].frequency = wn.GenerateWhiteNoise(tones[0].frequency);
@@ -24,26 +21,31 @@ public class ToneGenerator : MonoBehaviour
 
             Tone[] otherTones = tones.Where(w => w != tones[0]).ToArray(); // Removes the tone that we are adding on to, as this doesn't need to be added to itself.
 
-            data[i] = tones[0].AddSine(timeIndex, otherTones);
+            //data[i] = tones[0].AddSine(timeIndex, otherTones);
+            data[i] = tones[0].CreateSaw(timeIndex);
             timeIndex++;
         }
     }
-
-    // FORMULA FOR ADDING SINE WAVES: f(x) = a1*sin(f1*x + o1) + a2*sin(f2*x + o2)
 }
 
 [System.Serializable]
 public class Tone
 {
-    [Range(0,5)]
+    private const int sampleRate = 44100;
+
+    [Range(0,500)]
     public float frequency;
 
     [Range(0,2)]
     public float amplitude;
 
-    [Range(-180,180)]
-    public int offset;
+    [Range(1,5)]
+    public float offset;
 
+    [Header("For sawtooth")]
+    public bool inverse;
+    [Range(1,10)]
+    public int numberOfWaves;
     public Tone(float freq, float amp, int off)
     {
         frequency = freq;
@@ -53,7 +55,7 @@ public class Tone
 
     public float CreateSine(int time)
     {
-        return amplitude * Mathf.Sin((frequency * time) - offset);
+        return amplitude * Mathf.Sin(offset * Mathf.PI * time * (frequency / sampleRate));
     }
 
     public float AddSine(int time, Tone[] tones)
@@ -66,6 +68,22 @@ public class Tone
         }
 
         return totalSine;
+    }
+
+    public float CreateSaw(int time)
+    {
+        float totalSaw = 0;
+        for (int i = 0; i < numberOfWaves; i++)
+        {
+            totalSaw += amplitude * Mathf.Sin((offset * (i + 1 / numberOfWaves)) * Mathf.PI * time * (frequency / sampleRate));
+        }
+
+        return totalSaw * (inverse == true ? -1 : 1);
+    }
+
+    public float CreateTri(int time)
+    {
+        return ((2 * amplitude) / Mathf.PI) * Mathf.Asin(Mathf.Sin(((2 * Mathf.PI) / 100000 * (1 / frequency)) * time ));
     }
 }
 
