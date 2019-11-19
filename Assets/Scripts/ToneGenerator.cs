@@ -5,26 +5,75 @@ using UnityEngine;
 
 public class ToneGenerator : MonoBehaviour
 {
+    [Tooltip("This must be a multiple of 60")]
+    public int bpm = 120;
+    public float timeBetweenBeats = 0.5f;
+    public AudioSource audioSource;
     public Tone[] tones = new Tone[0];
     public bool AddWhiteNoise;
     public WhiteNoise wn = new WhiteNoise();
+
     private int timeIndex = 0;
+    private bool playAudio = false;
+    private float time;
+    private float[] wavData;
+
+    private void Update()
+    {
+        MetronomeBeat();
+        //RandomBeat();
+
+        if (Input.GetKey(KeyCode.B)) { playAudio = true; }
+    }
+
+    private void MetronomeBeat()
+    {
+        time -= Time.deltaTime;
+
+        if (time < 0)
+        {
+            playAudio = !playAudio;
+            time = timeBetweenBeats;
+        }
+    }
+
+    private void RandomBeat()
+    {
+        time -= Time.deltaTime;
+        if (time < 0)
+        {
+            time = timeBetweenBeats;
+
+            playAudio = (Random.Range(0, bpm / 60) == 1) ? true : false;
+        }
+    }
 
     private void OnAudioFilterRead(float[] data, int channels)
     {
-        for (int i = 0; i < data.Length; i += channels)
+        if (playAudio)
         {
-            if (AddWhiteNoise)
+            for (int i = 0; i < data.Length; i += channels)
             {
-                tones[0].frequency = wn.GenerateWhiteNoise(tones[0].frequency);
+                if (AddWhiteNoise)
+                {
+                    tones[0].frequency = wn.GenerateWhiteNoise(tones[0].frequency);
+                }
+
+                Tone[] otherTones = tones.Where(w => w != tones[0]).ToArray(); // Removes the tone that we are adding on to, as this doesn't need to be added to itself.
+
+                data[i] = tones[0].AddSine(timeIndex, otherTones);
+                //data[i] = tones[0].CreateSaw(timeIndex);
+                timeIndex++;
             }
-
-            Tone[] otherTones = tones.Where(w => w != tones[0]).ToArray(); // Removes the tone that we are adding on to, as this doesn't need to be added to itself.
-
-            //data[i] = tones[0].AddSine(timeIndex, otherTones);
-            data[i] = tones[0].CreateSaw(timeIndex);
-            timeIndex++;
         }
+
+        wavData = data;
+    }
+
+    public void OnSaveClick()
+    {
+        Debug.Log(audioSource);
+        SaveWavUtil.Save("D:\\workspace\\comp120-tinkering-audio", audioSource.clip);
     }
 }
 
