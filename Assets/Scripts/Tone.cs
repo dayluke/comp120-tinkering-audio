@@ -92,6 +92,8 @@ public class Tone
 
 #region SoundAlgorithms
 
+    /// <summary>Uses the Sine wave formula to generate a simple sine tone.</summary>
+    /// <param name="time"></param>
     public float CreateSine(int time)
     {
         return amplitude * Mathf.Sin(2 * Mathf.PI * time * frequency / sampleRate);
@@ -112,6 +114,8 @@ public class Tone
         return totalSine;
     }
 
+    /// <summary>Uses the Sawtooth wave formula to generate a slightly grainy tone.</summary>
+    /// <param name="time"></param>
     public float CreateSaw(int time)
     {
         float totalSaw = 0;
@@ -123,11 +127,19 @@ public class Tone
         return totalSaw * (inverse == true ? -1 : 1);
     }
 
+    /// <summary>Uses the Triangle wave formula to generate a sharp tone.</summary>
+    /// <param name="time"></param>
     public float CreateTri(int time)
     {
         return ((2 * amplitude) / Mathf.PI) * Mathf.Asin(Mathf.Sin(((2 * Mathf.PI) / 100000 * (1 / frequency)) * time));
     }
 
+    /// <summary>
+    /// Uses the modulus operator to switch the audio on and off for the time specified in timeBetweenBeats.
+    /// This function just plays a simple sine wave when the audio is on.
+    /// </summary>
+    /// <param name="currentTime"></param>
+    /// <param name="playAudio"></param>
     public float CreateMetronome(int currentTime, bool playAudio)
     {
         if (currentTime % (sampleRate * timeBetweenBeats) == 0)
@@ -143,6 +155,12 @@ public class Tone
         return 0;
     }
 
+    /// <summary>
+    /// Uses the random function to generate a tone every random seconds.
+    /// </summary>
+    /// <param name="currentTime"></param>
+    /// <param name="playAudio"></param>
+    /// <param name="bpm"></param>
     public float CreateRandom(int currentTime, bool playAudio, int bpm = 120)
     {
         if (currentTime % (sampleRate * timeBetweenBeats) == 0)
@@ -158,6 +176,7 @@ public class Tone
         return 0;
     }
 
+    /// <summary>Uses the random function to generate a make-shift white noise tone.</summary>
     public float CreateWhiteNoise()
     {
         System.Random rand = new System.Random();
