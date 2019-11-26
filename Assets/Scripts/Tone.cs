@@ -17,8 +17,6 @@ public class Tone
 {
     private const int sampleRate = 44100;
 
-    public float deltaTime;
-
     public SoundType type;
 
     [Range(0, 500)]
@@ -130,30 +128,25 @@ public class Tone
         return ((2 * amplitude) / Mathf.PI) * Mathf.Asin(Mathf.Sin(((2 * Mathf.PI) / 100000 * (1 / frequency)) * time));
     }
 
-    public float CreateMetronome(float currentTime, bool playAudio)
+    public float CreateMetronome(int currentTime, bool playAudio)
     {
-        currentTime -= deltaTime;
-
-        if (currentTime < 0)
+        if (currentTime % (sampleRate * timeBetweenBeats) == 0)
         {
             playAudio = !playAudio;
-            currentTime = timeBetweenBeats;
         }
 
         if (playAudio)
         {
-            return CreateSine(Mathf.RoundToInt(currentTime));
+            return CreateSine(currentTime);
         }
 
         return 0;
     }
 
-    public float CreateRandom(float currentTime, bool playAudio, int bpm = 120)
+    public float CreateRandom(int currentTime, bool playAudio, int bpm = 120)
     {
-        currentTime -= deltaTime;
-        if (currentTime < 0)
+        if (currentTime % (sampleRate * timeBetweenBeats) == 0)
         {
-            currentTime = timeBetweenBeats;
             playAudio = (Random.Range(0, bpm / 60) == 1) ? true : false;
         }
 

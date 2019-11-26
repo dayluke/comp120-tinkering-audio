@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 /// <summary>
 /// AUTHOR: Luke Day,
 /// LICENSE: MIT License
 /// </summary>
 public class ToneGenerator : MonoBehaviour
 {
+    [Range(10,44100)]
+    public int sampleRate = 44100;
+
+    [Range(1,100)]
+    public int sampleDuration = 100;
     public AudioSource audioSource;
     public Tone[] tones = new Tone[0];
 
@@ -21,8 +30,14 @@ public class ToneGenerator : MonoBehaviour
     private void Update()
     {
         tones[0].deltaTime = Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            audioSource.PlayOneShot(CreateToneAudioClip());
+        }
     }
 
+    /*
     /// <summary>
     /// Handles the outputting of audio.
     /// Sets the 'data' array equal to the tone that has been set in the inspector.
@@ -40,6 +55,31 @@ public class ToneGenerator : MonoBehaviour
         }
 
         //wavData = data; #### try and save to wav file? -- see below
+    }*/
+
+    private AudioClip CreateToneAudioClip()
+    {
+        Tone[] otherTones = tones.Where(w => w != tones[0]).ToArray();
+        int sampleLength = sampleRate * sampleDuration;
+
+        float maxValue = 1f / 4f;
+
+        AudioClip audioClip = AudioClip.Create("Tone", sampleLength, 1, sampleRate, false);
+
+        float[] samples = new float[sampleLength];
+        for (int i = 0; i < sampleLength; ++i)
+        {
+            float s = 0;
+            foreach (Tone tone in tones)
+            {
+                s += tone.PlaySound(i, otherTones);
+            }
+            float v = s * maxValue;
+            samples[i] = v;
+        }
+
+        audioClip.SetData(samples, 0);
+        return audioClip;
     }
 
     /// <summary>
@@ -63,7 +103,7 @@ public class ToneGenerator : MonoBehaviour
     /// </summary>
     public void OnSaveClick()
     {
-        Debug.Log(audioSource);
-        SaveWavUtil.Save("D:\\workspace\\comp120-tinkering-audio", audioSource.clip);
+        string path = EditorUtility.SaveFilePanel("Where do you want the wav file to go?", "", "", "wav");
+        SaveWavUtil.Save(path, CreateToneAudioClip());
     }
 }
