@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -476,7 +476,6 @@ GameObject:
   m_Component:
   - component: {fileID: 574116940}
   - component: {fileID: 574116939}
-  - component: {fileID: 574116938}
   - component: {fileID: 574116941}
   m_Layer: 0
   m_Name: Audio Source (GameObject)
@@ -485,22 +484,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &574116938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 574116937}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 909240c0b398278439f11d035e93d07e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  frequency: 0
-  amplitude: 0
-  sampleDuration: 10
-  sampleRate: 1000
 --- !u!82 &574116939
 AudioSource:
   m_ObjectHideFlags: 0
@@ -623,25 +606,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e2561ef613b8e47b6488723618ae6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sampleRate: 44100
+  sampleDuration: 2
   audioSource: {fileID: 574116939}
   tones:
-  - deltaTime: 0
-    type: 4
-    frequency: 65
-    amplitude: 0.5
+  - type: 4
+    frequency: 200
+    amplitude: 1
     timeBetweenBeats: 0.5
     inverse: 0
     numberOfWaves: 1
-  - deltaTime: 0
-    type: 0
-    frequency: 50
+  - type: 0
+    frequency: 0
     amplitude: 0
     timeBetweenBeats: 0
     inverse: 0
     numberOfWaves: 1
-  - deltaTime: 0
-    type: 0
-    frequency: 50
+  - type: 0
+    frequency: 0
     amplitude: 0
     timeBetweenBeats: 0
     inverse: 0
