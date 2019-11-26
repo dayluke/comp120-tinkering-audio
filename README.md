@@ -10,5 +10,5 @@ Select the 'Audio Source (GameObject)' - this is the gameobject that you will ne
 Click the play button, to enter Unity Playmode, and you should hear a tone playing.
 
 ## License Choice
-# MIT License
+### MIT License
 I chose to use the MIT License for this project it grants permission, free of charge, to any person that accesses this software. They have the rights to use the software however they wish, without restriction. This includes to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software.
