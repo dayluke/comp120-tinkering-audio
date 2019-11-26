@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
+/// AUTHOR: Luke Day,
+/// LICENSE: MIT License
+/// </summary>
+
+/// <summary>
 /// The Tone Class is used to create an easy-to-use interface,
 /// so that the user can readily change the values of the
 /// variables in the inspector at runtime.

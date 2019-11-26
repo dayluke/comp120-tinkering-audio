@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// AUTHOR: Luke Day,
+/// LICENSE: MIT License
+/// </summary>
 public class ToneGenerator : MonoBehaviour
 {
     public AudioSource audioSource;
