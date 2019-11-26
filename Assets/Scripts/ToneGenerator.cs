@@ -20,8 +20,6 @@ public class ToneGenerator : MonoBehaviour
     public int sampleDuration = 100;
     public AudioSource audioSource;
     public Tone[] tones = new Tone[0];
-
-    private int timeIndex = 0;
     
     /// <summary>
     /// Changes the 'deltaTime' attribute in the Tone class, as this has to be
@@ -29,34 +27,19 @@ public class ToneGenerator : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        tones[0].deltaTime = Time.deltaTime;
-
         if (Input.GetKeyDown(KeyCode.H))
         {
             audioSource.PlayOneShot(CreateToneAudioClip());
         }
     }
-
-    /*
+    
     /// <summary>
     /// Handles the outputting of audio.
-    /// Sets the 'data' array equal to the tone that has been set in the inspector.
+    /// Sets the 'samples' array equal to the tone that has been set in the inspector.
     /// The 'otherTones' array is used for the AddSine function in the Tone class.
     /// </summary>
     /// <param name="data"></param>
     /// <param name="channels"></param>
-    private void OnAudioFilterRead(float[] data, int channels)
-    {
-        for (int i = 0; i < data.Length; i += channels)
-        {
-            Tone[] otherTones = tones.Where(w => w != tones[0]).ToArray(); // Removes the tone that we are adding on to, as this doesn't need to be added to itself.
-            data[i] = tones[0].PlaySound(timeIndex, otherTones);
-            timeIndex++;
-        }
-
-        //wavData = data; #### try and save to wav file? -- see below
-    }*/
-
     private AudioClip CreateToneAudioClip()
     {
         Tone[] otherTones = tones.Where(w => w != tones[0]).ToArray();
@@ -67,6 +50,9 @@ public class ToneGenerator : MonoBehaviour
         AudioClip audioClip = AudioClip.Create("Tone", sampleLength, 1, sampleRate, false);
 
         float[] samples = new float[sampleLength];
+
+        // Loops for the sample length, going through every tone and adding it to the
+        // output 'samples' array.
         for (int i = 0; i < sampleLength; ++i)
         {
             float s = 0;
@@ -99,7 +85,7 @@ public class ToneGenerator : MonoBehaviour
     }
 
     /// <summary>
-    /// Saves the Wav file to the path specified.
+    /// Saves the Wav file to the path specified by the user.
     /// </summary>
     public void OnSaveClick()
     {
