@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The Tone Class is used to create an easy-to-use interface,
+/// so that the user can readily change the values of the
+/// variables in the inspector at runtime.
+/// </summary>
 [System.Serializable]
 public class Tone
 {
@@ -25,12 +30,29 @@ public class Tone
     [Range(1, 10)]
     public int numberOfWaves;
 
+    /// <summary>
+    /// Constructor method for the Tone class.
+    /// Sets the variables passed through the params
+    /// to the class variables.
+    /// </summary>
+    /// <param name="freq"></param>
+    /// <param name="amp"></param>
     public Tone(float freq, float amp)
     {
         frequency = freq;
         amplitude = amp;
     }
 
+    /// <summary>
+    /// PlaySound determines which 'SoundType' enum the user
+    /// chose in the inspector. The respective method then gets
+    /// called and the value of the method is returned to the 
+    /// main script to be added to the data.
+    /// If no enum value was found then a value of 0 is returned.
+    /// </summary>
+    /// <param name="time"></param>
+    /// <param name="tones"></param>
+    /// <returns></returns>
     public float PlaySound(int time, Tone[] tones = null)
     {
         if (type == SoundType.SINE)
@@ -64,6 +86,8 @@ public class Tone
 
         return 0;
     }
+
+#region SoundAlgorithms
 
     public float CreateSine(int time)
     {
@@ -142,6 +166,8 @@ public class Tone
         float value = (float)(rand.NextDouble() * 2.0 - 1.0) * amplitude;
         return value * frequency;
     }
+
+#endregion
 }
 
 public enum SoundType

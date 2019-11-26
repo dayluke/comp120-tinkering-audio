@@ -10,11 +10,22 @@ public class ToneGenerator : MonoBehaviour
 
     private int timeIndex = 0;
     
+    /// <summary>
+    /// Changes the 'deltaTime' attribute in the Tone class, as this has to be
+    /// called from the main thread - and cannot be called from OnAudioFilterRead.
+    /// </summary>
     private void Update()
     {
         tones[0].deltaTime = Time.deltaTime;
     }
 
+    /// <summary>
+    /// Handles the outputting of audio.
+    /// Sets the 'data' array equal to the tone that has been set in the inspector.
+    /// The 'otherTones' array is used for the AddSine function in the Tone class.
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="channels"></param>
     private void OnAudioFilterRead(float[] data, int channels)
     {
         for (int i = 0; i < data.Length; i += channels)
@@ -27,6 +38,9 @@ public class ToneGenerator : MonoBehaviour
         //wavData = data; #### try and save to wav file? -- see below
     }
 
+    /// <summary>
+    /// Saves the Wav file to the path specified.
+    /// </summary>
     public void OnSaveClick()
     {
         Debug.Log(audioSource);
