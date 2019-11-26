@@ -1,5 +1,5 @@
 # COMP120: Tinkering Audio
-### by Luke Day
+### Contract 4 by Luke Day
 
 ## Brief Overview
 This project is designed to enable users to easily create and modify tones using the Unity Inspector.
