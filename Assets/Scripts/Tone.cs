@@ -168,6 +168,7 @@ public class Tone
     }
 
 #endregion
+
 }
 
 public enum SoundType

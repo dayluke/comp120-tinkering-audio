@@ -39,6 +39,22 @@ public class ToneGenerator : MonoBehaviour
     }
 
     /// <summary>
+    /// Randomises the variable values that are assigned in the Tone class.
+    /// This method heavily utilises the Random.Range function, which returns
+    /// a int/float (depending on the paramters you pass it) between the two 
+    /// parameters.
+    /// The Enum.Getvalues method returns the number of enum values in the 
+    /// specified enum data type.   
+    /// </summary>
+    public void OnRandomToneClick()
+    {
+        tones[0].type = (SoundType)Random.Range(0, System.Enum.GetValues(typeof(SoundType)).Length);
+        tones[0].frequency = Random.Range(50, 500);
+        tones[0].amplitude = Random.Range(0.2f, 1);
+        tones[0].timeBetweenBeats = Random.Range(0.1f, 1);
+    }
+
+    /// <summary>
     /// Saves the Wav file to the path specified.
     /// </summary>
     public void OnSaveClick()
