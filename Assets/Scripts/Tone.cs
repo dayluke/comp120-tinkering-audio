@@ -15,7 +15,8 @@ using UnityEngine;
 [System.Serializable]
 public class Tone
 {
-    private const int sampleRate = 44100;
+    [Range(1000,44100)]
+    public int sampleRate = 44100;
 
     public SoundType type;
 
@@ -28,10 +29,7 @@ public class Tone
     [Range(0,2)]
     public float timeBetweenBeats;
 
-    [Header("For sawtooth")]
-    public bool inverse;
-    [Range(1, 10)]
-    public int numberOfWaves;
+    public Sawtooth sawtoothProperties;
 
     /// <summary>
     /// Constructor method for the Tone class.
@@ -119,12 +117,12 @@ public class Tone
     public float CreateSaw(int time)
     {
         float totalSaw = 0;
-        for (int i = 0; i < numberOfWaves; i++)
+        for (int i = 0; i < sawtoothProperties.numberOfWaves; i++)
         {
-            totalSaw += amplitude * Mathf.Sin((i + 1 / numberOfWaves) * Mathf.PI * time * (frequency / sampleRate));
+            totalSaw += amplitude * Mathf.Sin((i + 1 / sawtoothProperties.numberOfWaves) * Mathf.PI * time * (frequency / sampleRate));
         }
 
-        return totalSaw * (inverse == true ? -1 : 1);
+        return totalSaw * (sawtoothProperties.inverse == true ? -1 : 1);
     }
 
     /// <summary>Uses the Triangle wave formula to generate a sharp tone.</summary>
@@ -197,4 +195,11 @@ public enum SoundType
     METRONOME,
     RANDOM,
     WHITENOISE
+}
+
+[System.Serializable]
+public class Sawtooth
+{
+    public bool inverse;
+    public int numberOfWaves;
 }

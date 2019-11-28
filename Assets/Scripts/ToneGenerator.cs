@@ -13,9 +13,6 @@ using UnityEditor;
 /// </summary>
 public class ToneGenerator : MonoBehaviour
 {
-    [Range(10,44100)]
-    public int sampleRate = 44100;
-
     [Range(1,100)]
     public int sampleDuration = 100;
     public AudioSource audioSource;
@@ -27,7 +24,7 @@ public class ToneGenerator : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.H) && !audioSource.isPlaying)
         {
             audioSource.PlayOneShot(CreateToneAudioClip());
         }
@@ -43,11 +40,11 @@ public class ToneGenerator : MonoBehaviour
     private AudioClip CreateToneAudioClip()
     {
         Tone[] otherTones = tones.Where(w => w != tones[0]).ToArray();
-        int sampleLength = sampleRate * sampleDuration;
+        int sampleLength = tones[0].sampleRate * sampleDuration;
 
         float maxValue = 1f / 4f;
 
-        AudioClip audioClip = AudioClip.Create("Tone", sampleLength, 1, sampleRate, false);
+        AudioClip audioClip = AudioClip.Create("Tone", sampleLength, 1, tones[0].sampleRate, false);
 
         float[] samples = new float[sampleLength];
 
