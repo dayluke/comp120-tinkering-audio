@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -606,28 +606,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e2561ef613b8e47b6488723618ae6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sampleRate: 44100
   sampleDuration: 2
   audioSource: {fileID: 574116939}
   tones:
-  - type: 4
-    frequency: 200
+  - type: 1
+    sampleDuration: 3
+    sampleRate: 44100
+    frequency: 100
     amplitude: 1
     timeBetweenBeats: 0.5
-    inverse: 0
-    numberOfWaves: 1
+    sawtoothProperties:
+      inverse: 0
+      numberOfWaves: 0
   - type: 0
-    frequency: 0
-    amplitude: 0
+    sampleDuration: 1
+    sampleRate: 44100
+    frequency: 200
+    amplitude: 0.5
     timeBetweenBeats: 0
-    inverse: 0
-    numberOfWaves: 1
+    sawtoothProperties:
+      inverse: 0
+      numberOfWaves: 0
   - type: 0
-    frequency: 0
-    amplitude: 0
+    sampleDuration: 1
+    sampleRate: 44100
+    frequency: 400
+    amplitude: 0.5
     timeBetweenBeats: 0
-    inverse: 0
-    numberOfWaves: 1
+    sawtoothProperties:
+      inverse: 0
+      numberOfWaves: 0
 --- !u!1 &661271524
 GameObject:
   m_ObjectHideFlags: 0

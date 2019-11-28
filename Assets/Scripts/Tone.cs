@@ -15,10 +15,13 @@ using UnityEngine;
 [System.Serializable]
 public class Tone
 {
-    [Range(1000,44100)]
-    public int sampleRate = 44100;
-
     public SoundType type;
+
+    [Range(0, 120)]
+    public int sampleDuration = 3;
+
+    [Range(1000, 44100)]
+    public int sampleRate = 44100;
 
     [Range(0, 500)]
     public float frequency;
@@ -30,6 +33,8 @@ public class Tone
     public float timeBetweenBeats;
 
     public Sawtooth sawtoothProperties;
+
+    private bool playAudio = false;
 
     /// <summary>
     /// Constructor method for the Tone class.
@@ -74,11 +79,11 @@ public class Tone
         }
         else if (type == SoundType.METRONOME)
         {
-            return CreateMetronome(time, playAudio: true);
+            return CreateMetronome(time);
         }
         else if (type == SoundType.RANDOM)
         {
-            return CreateRandom(time, playAudio: true);
+            return CreateRandom(time);
         }
         else if (type == SoundType.WHITENOISE)
         {
@@ -138,7 +143,7 @@ public class Tone
     /// </summary>
     /// <param name="currentTime"></param>
     /// <param name="playAudio"></param>
-    public float CreateMetronome(int currentTime, bool playAudio)
+    public float CreateMetronome(int currentTime)
     {
         if (currentTime % (sampleRate * timeBetweenBeats) == 0)
         {
@@ -147,7 +152,7 @@ public class Tone
 
         if (playAudio)
         {
-            return CreateSine(currentTime);
+            return amplitude * Mathf.Sin(2 * Mathf.PI * currentTime * frequency / sampleRate);
         }
 
         return 0;
@@ -159,7 +164,7 @@ public class Tone
     /// <param name="currentTime"></param>
     /// <param name="playAudio"></param>
     /// <param name="bpm"></param>
-    public float CreateRandom(int currentTime, bool playAudio, int bpm = 120)
+    public float CreateRandom(int currentTime, int bpm = 120)
     {
         if (currentTime % (sampleRate * timeBetweenBeats) == 0)
         {
@@ -168,7 +173,7 @@ public class Tone
 
         if (playAudio)
         {
-            return CreateSine(Mathf.RoundToInt(currentTime));
+            return amplitude * Mathf.Sin(2 * Mathf.PI * Mathf.RoundToInt(currentTime) * frequency / sampleRate);
         }
 
         return 0;

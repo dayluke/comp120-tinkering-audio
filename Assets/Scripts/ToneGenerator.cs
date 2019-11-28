@@ -39,29 +39,31 @@ public class ToneGenerator : MonoBehaviour
     /// <param name="channels"></param>
     private AudioClip CreateToneAudioClip()
     {
-        Tone[] otherTones = tones.Where(w => w != tones[0]).ToArray();
-        int sampleLength = tones[0].sampleRate * sampleDuration;
+        
+        int sampleLength = tones[0].sampleRate * tones[0].sampleDuration;
 
         float maxValue = 1f / 4f;
-
         AudioClip audioClip = AudioClip.Create("Tone", sampleLength, 1, tones[0].sampleRate, false);
 
         float[] samples = new float[sampleLength];
 
         // Loops for the sample length, going through every tone and adding it to the
         // output 'samples' array.
-        for (int i = 0; i < sampleLength; ++i)
+        foreach (Tone tone in tones)
         {
-            float s = 0;
-            foreach (Tone tone in tones)
+            Tone[] otherTones = tones.Where(w => w != tones[0]).ToArray();
+            sampleLength = tone.sampleRate * tone.sampleDuration;
+            for (int i = 0; i < sampleLength; ++i)
             {
-                s += tone.PlaySound(i, otherTones);
+                float s = tone.PlaySound(i, otherTones);
+                //s = Metronome(i);
+                float v = s * maxValue;
+                samples[i] += v;
             }
-            float v = s * maxValue;
-            samples[i] = v;
-        }
+        }        
 
         audioClip.SetData(samples, 0);
+
         return audioClip;
     }
 
@@ -88,5 +90,22 @@ public class ToneGenerator : MonoBehaviour
     {
         string path = EditorUtility.SaveFilePanel("Where do you want the wav file to go?", "", "", "wav");
         SaveWavUtil.Save(path, CreateToneAudioClip());
+    }
+
+
+    private bool playAudio = false;
+    private float Metronome(int currentTime, float timeBetweenBeats = 0.5f)
+    {
+        if (currentTime % (tones[0].sampleRate * timeBetweenBeats) == 0)
+        {
+            playAudio = !playAudio;
+        }
+
+        if (playAudio)
+        {
+            return tones[0].amplitude * Mathf.Sin(2 * Mathf.PI * currentTime * tones[0].frequency / tones[0].sampleRate);
+        }
+
+        return 0;
     }
 }
