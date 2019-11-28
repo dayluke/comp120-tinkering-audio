@@ -102,6 +102,9 @@ public class Tone
         return amplitude * Mathf.Sin(2 * Mathf.PI * time * frequency / sampleRate);
     }
 
+    /// <summary>Uses the Sine wave formula to generate a simple sine tone.
+    /// Adds the Sine wave formula of the other tones to this tone.</summary>
+    /// <param name="time"></param>
     public float AddSine(int time, Tone[] tones)
     {
         float totalSine = this.CreateSine(time);

@@ -13,8 +13,6 @@ using UnityEditor;
 /// </summary>
 public class ToneGenerator : MonoBehaviour
 {
-    [Range(1,100)]
-    public int sampleDuration = 100;
     public AudioSource audioSource;
     public Tone[] tones = new Tone[0];
     
@@ -90,22 +88,5 @@ public class ToneGenerator : MonoBehaviour
     {
         string path = EditorUtility.SaveFilePanel("Where do you want the wav file to go?", "", "", "wav");
         SaveWavUtil.Save(path, CreateToneAudioClip());
-    }
-
-
-    private bool playAudio = false;
-    private float Metronome(int currentTime, float timeBetweenBeats = 0.5f)
-    {
-        if (currentTime % (tones[0].sampleRate * timeBetweenBeats) == 0)
-        {
-            playAudio = !playAudio;
-        }
-
-        if (playAudio)
-        {
-            return tones[0].amplitude * Mathf.Sin(2 * Mathf.PI * currentTime * tones[0].frequency / tones[0].sampleRate);
-        }
-
-        return 0;
     }
 }
