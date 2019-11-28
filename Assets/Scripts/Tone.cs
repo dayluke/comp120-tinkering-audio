@@ -206,5 +206,7 @@ public enum SoundType
 public class Sawtooth
 {
     public bool inverse;
+
+    [Range(1, 10)]
     public int numberOfWaves;
 }

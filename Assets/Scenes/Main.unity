@@ -617,7 +617,7 @@ MonoBehaviour:
     timeBetweenBeats: 0.5
     sawtoothProperties:
       inverse: 0
-      numberOfWaves: 0
+      numberOfWaves: 1
   - type: 0
     sampleDuration: 1
     sampleRate: 44100
@@ -626,7 +626,7 @@ MonoBehaviour:
     timeBetweenBeats: 0
     sawtoothProperties:
       inverse: 0
-      numberOfWaves: 0
+      numberOfWaves: 1
   - type: 0
     sampleDuration: 1
     sampleRate: 44100
@@ -635,7 +635,7 @@ MonoBehaviour:
     timeBetweenBeats: 0
     sawtoothProperties:
       inverse: 0
-      numberOfWaves: 0
+      numberOfWaves: 1
 --- !u!1 &661271524
 GameObject:
   m_ObjectHideFlags: 0
